@@ -191,3 +191,79 @@ Scenario Outline: use examples
        Then the response status should be "200"
        And the JSON response "result" equals "success"
 ```
+
+## 通过Junit 运行feature.
+1. 在Pom.xml 文件添加junit相关包：
+```
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+```
+2. 新建个运行类，代码例子如下：
+
+```
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        strict = true,
+        monochrome = true,
+        plugin = {"pretty", "html:target/cucumber", "json:target/cucumber.json"},
+        features = {"src/test/java/bosev2"},
+        glue = {"com.bose.step"},
+        tags = {"~@unimplemented"})
+public class RunnerBoseTest {
+}
+```
+
+@RunWith(Cucumber.class) ：  注解表示通过Cucumber的Junit 方式运行脚本
+@CucumberOptions () ：注解用于配置运行信息，其中代码中的plugin 表示测试报告输出的路径和格式， feature 表示被运行的feature文件的包路径， glue中配置steps的包路径地址，tags中配置要运行的用例的tags名，其实~符号表示除了这个tags的所有tags.
+
+## 通过Jenkins 执行
+1. 在Pom.xml 文件里面添加运行插件，如下：
+```
+ <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+2. 在Jenkins 中添加[Cucumber-JVM reports](https://github.com/jenkinsci/cucumber-reports-plugin)插件。
+3. 新建Maven job，配置maven构建方式和构建后的测试报告展示。
+
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/1992590-918aec8401020427.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+Cucumber-JVM reports 提供了非常漂亮的report，如下：
+
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/1992590-6f22e647b4eed391.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
