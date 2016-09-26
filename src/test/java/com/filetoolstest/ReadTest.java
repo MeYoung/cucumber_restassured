@@ -1,7 +1,7 @@
 package com.filetoolstest;
 
 import com.tools.filetools.ReadTxtFile;
-import org.json.JSONObject;
+
 import org.testng.annotations.Test;
 
 import static com.jayway.restassured.path.json.JsonPath.from;
