@@ -1,3 +1,5 @@
+**搭建这个完全是因为之前某个团队就要这么做而搭建，然后实际API自动化测试中，非常不建议通过(Cucucmber)这种方式来实现。完全可以用rest assured + TestNG/JUnit 完成你需要的API自动化测试**
+
 # cucumber_restassured
 cucumber + restassured api automation
 
