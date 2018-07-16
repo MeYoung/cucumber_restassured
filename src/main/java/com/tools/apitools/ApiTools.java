@@ -2,6 +2,7 @@ package com.tools.apitools;
 
 import com.jayway.restassured.response.Response;
 import com.tools.config.LoggerControler;
+import org.testng.annotations.Test;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -68,6 +69,13 @@ public class ApiTools {
         response.getBody().prettyPrint();
         return response;
     }
+
+    @Test
+    public void testGet(){
+        Response response = ApiTools.get("xxxxxxxxxx");
+        log.info(response);
+    }
+
 
     /**
      * 获取json中某个key值
